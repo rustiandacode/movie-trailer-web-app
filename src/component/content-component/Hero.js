@@ -14,7 +14,7 @@ import 'swiper/css/pagination'
 // import required modules
 import { Pagination, Autoplay } from 'swiper'
 
-const Hero = () => {
+const Hero = (props) => {
   const [nowPlaying, setNowPlaying] = useState([])
 
   useEffect(() => {
@@ -64,7 +64,12 @@ const Hero = () => {
                         <p className="text-white text-sm">{movie.popularity}</p>
                       </div>
                     </div>
-                    <button className="text-white bg-red-600 text-sm font-semibold rounded-lg py-2 px-4">
+                    <button
+                      className="text-white bg-red-600 text-sm font-semibold rounded-lg py-2 px-4"
+                      onClick={() => {
+                        props.detailMovie(movie)
+                      }}
+                    >
                       View
                     </button>
                   </div>
@@ -90,7 +95,12 @@ const Hero = () => {
                           </p>
                         </div>
                       </div>
-                      <button className="text-white bg-red-600 text-xs font-semibold rounded-lg py-2 px-4">
+                      <button
+                        className="text-white bg-red-600 text-xs font-semibold rounded-lg py-2 px-4"
+                        onClick={() => {
+                          props.detailMovie(movie)
+                        }}
+                      >
                         View
                       </button>
                     </div>

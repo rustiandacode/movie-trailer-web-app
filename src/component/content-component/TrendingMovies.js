@@ -36,9 +36,6 @@ const TrendingMovies = (props) => {
                   {movie.overview}
                 </p>
                 <p>...</p>
-                <button className="bg-red-600 pb-2 text-xs px-2 py-1 mt-2 font-semibold rounded-md">
-                  View
-                </button>
               </div>
             </div>
           )

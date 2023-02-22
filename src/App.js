@@ -13,8 +13,8 @@ function App() {
     if (detailMovie === undefined) {
       return (
         <>
-          <Hero />
-          <PopularMovies />
+          <Hero detailMovie={(movie) => setDetailMovie(movie)} />
+          <PopularMovies detailMovie={(movie) => setDetailMovie(movie)} />
           <TrendingMovies detailMovie={(movie) => setDetailMovie(movie)} />
         </>
       )

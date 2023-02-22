@@ -7,7 +7,7 @@ import 'swiper/css/pagination'
 
 // import required modules
 
-const PopularMovies = () => {
+const PopularMovies = (props) => {
   const [popularMovies, setPopularMovies] = useState([])
 
   useEffect(() => {
@@ -18,9 +18,7 @@ const PopularMovies = () => {
 
   return (
     <>
-      <p className="my-6 text-white font-semiboldbold text-sm ">
-        Popular Movies
-      </p>
+      <p className="my-6 text-white font-semibold text-sm ">Popular Movies</p>
       <Swiper
         pagination={true}
         spaceBetween={15}
@@ -37,7 +35,12 @@ const PopularMovies = () => {
         {popularMovies.map((movie) => {
           return (
             <SwiperSlide key={movie.id}>
-              <div className="max-w-[208px] cursor-pointer group hover:bg-gray-500 bg-hitam-card rounded-lg p-2 md:p-3 shadow-md">
+              <div
+                className="max-w-[208px] cursor-pointer group hover:bg-gray-500 bg-hitam-card rounded-lg p-2 md:p-3 shadow-md"
+                onClick={() => {
+                  props.detailMovie(movie)
+                }}
+              >
                 <img
                   src={`https://image.tmdb.org/t/p/w500/${movie.backdrop_path}`}
                   alt={movie.title}
