@@ -5,7 +5,6 @@ import { IoMdCopy } from 'react-icons/io'
 
 const DetailMovie = (props) => {
   const movie = props.movieDetail
-  console.log({ movie: movie })
   return (
     <>
       <div className="container mx-auto my-12">
