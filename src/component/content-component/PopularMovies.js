@@ -17,7 +17,7 @@ const PopularMovies = (props) => {
   }, [])
 
   return (
-    <>
+    <div className="md:my-10 md:px-10 px-5">
       <p className="my-6 text-white font-semibold text-sm ">Popular Movies</p>
       <Swiper
         pagination={true}
@@ -54,7 +54,7 @@ const PopularMovies = (props) => {
           )
         })}
       </Swiper>
-    </>
+    </div>
   )
 }
 

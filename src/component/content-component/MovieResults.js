@@ -1,11 +1,26 @@
+import { useState } from 'react'
+import { searchMovie } from '../../services/TheMovieDB'
 import { AiFillStar } from 'react-icons/ai'
 import posterBroken from '../../poster-broken.png'
 
 const MovieResults = (props) => {
-  const movies = props.movieResults
-  console.log(posterBroken)
+  const [number, setNumber] = useState(1)
+  const [movies, setMovies] = useState(props.movieResults)
+  const numberForPages = []
+
+  // number for pages value
+  for (let i = 1; i < 6; i++) {
+    numberForPages.push(i)
+  }
+
+  // results data by page
+  const thisPage = async (number, keyword) => {
+    const query = await searchMovie(number, keyword)
+    return setMovies(query.results)
+  }
+
   return (
-    <>
+    <div className="md:my-10 md:px-10 px-5">
       <p className="title">Results</p>
       <div className="container mx-auto flex flex-wrap justify-between">
         {movies.map((movie) => {
@@ -46,8 +61,27 @@ const MovieResults = (props) => {
             </div>
           )
         })}
+        <div className="container mx-auto flex justify-center gap-5">
+          {numberForPages.map((num, index) => {
+            return (
+              <div
+                className={`${
+                  num === number ? 'bg-hitam-content' : ''
+                } my-16 text-white shadow w-10 h-10 flex justify-center items-center cursor-pointer bg-hitam-card rounded-md`}
+                key={index}
+                onClick={() => {
+                  setNumber(num)
+                  thisPage(num, props.getKeyword)
+                  // props.movieResultsUpdate()
+                }}
+              >
+                <p>{num}</p>
+              </div>
+            )
+          })}
+        </div>
       </div>
-    </>
+    </div>
   )
 }
 

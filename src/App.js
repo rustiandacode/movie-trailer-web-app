@@ -6,10 +6,12 @@ import PopularMovies from './component/content-component/PopularMovies'
 import TrendingMovies from './component/content-component/TrendingMovies'
 import DetailMovie from './component/content-component/DetailMovie'
 import MovieResults from './component/content-component/MovieResults'
+import Footer from './component/content-component/Footer'
 
 function App() {
   const [detailMovie, setDetailMovie] = useState()
   const [movies, setMovies] = useState()
+  const [keyword, setKeyword] = useState()
 
   function Content() {
     if (detailMovie) {
@@ -18,6 +20,7 @@ function App() {
       return (
         <MovieResults
           movieResults={movies}
+          getKeyword={keyword}
           detailMovie={(movie) => setDetailMovie(movie)}
         />
       )
@@ -37,14 +40,18 @@ function App() {
       <div className="h-screen">
         <div className="flex justify-between">
           <Navside />
-          <div className="w-full bg-hitam-content h-screen overflow-y-scroll md:p-10 p-5">
+          <div className="w-full bg-hitam-content h-screen overflow-y-scroll ">
             <Navbar
               detailMovie={(movie) => setDetailMovie(movie)}
               movieResults={(movies) => setMovies(movies)}
+              keywordMovies={(keyword) => setKeyword(keyword)}
+              resetDetailMovie={(reset) => setDetailMovie(reset)}
             />
             {/* main content */}
             {Content()}
             {/* end main content */}
+
+            <Footer />
           </div>
         </div>
       </div>

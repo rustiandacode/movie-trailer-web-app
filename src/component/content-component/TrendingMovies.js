@@ -5,14 +5,30 @@ import { AiFillStar } from 'react-icons/ai'
 
 const TrendingMovies = (props) => {
   const [movies, setMovies] = useState([])
+  const [num, setNum] = useState(1)
+  const numberForPages = []
+
+  // number for pages value
+  for (let i = 1; i < 6; i++) {
+    numberForPages.push(i)
+  }
+  // console.log(movies)
+
+  // get Trending Movies
   useEffect(() => {
-    getTrendingMovies().then((result) => {
+    getTrendingMovies(1).then((result) => {
       setMovies(result)
     })
   }, [])
 
+  const thisPage = async (page) => {
+    await getTrendingMovies(page).then((result) => {
+      setMovies(result)
+    })
+  }
+
   return (
-    <>
+    <div className="md:my-10 md:px-10 px-5">
       <p className="title">On Trending</p>
       <div className="container mx-auto flex flex-wrap justify-between">
         {movies.map((movie) => {
@@ -46,8 +62,26 @@ const TrendingMovies = (props) => {
             </div>
           )
         })}
+        <div className="contaner mx-auto flex justify-center gap-5">
+          {numberForPages.map((number, index) => {
+            return (
+              <div
+                className={`${
+                  num === number ? 'bg-hitam-content' : ''
+                } my-16 text-white shadow w-10 h-10 flex justify-center items-center cursor-pointer bg-hitam-card rounded-md`}
+                key={number}
+                onClick={() => {
+                  thisPage(number)
+                  setNum(number)
+                }}
+              >
+                <p>{number}</p>
+              </div>
+            )
+          })}
+        </div>
       </div>
-    </>
+    </div>
   )
 }
 

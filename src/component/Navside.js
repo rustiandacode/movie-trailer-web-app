@@ -1,12 +1,29 @@
+// import react icon
 import { IoIosCompass } from 'react-icons/io'
 import { BsFillHeartFill } from 'react-icons/bs'
 import { AiFillHome } from 'react-icons/ai'
 
+// import Genres List
+import { getGenres } from '../services/TheMovieDB'
+
+// import hook
+import { useState, useEffect } from 'react'
+
 const Navside = () => {
+  const [genres, setGenres] = useState([])
+
+  // get genre list from api
+  useEffect(() => {
+    getGenres().then((result) => {
+      const data = result
+      setGenres(data.genres)
+    })
+  }, [])
+
   return (
-    <nav className="p-10 md:w-1/5  border-r-[1px] border-hitam-card h-screen overflow-y-scroll hidden lg:block">
+    <nav className="p-10 md:w-1/5  h-screen overflow-y-scroll hidden lg:block">
       <h2 className="text-white text-2xl font-bold cursor-pointer">
-        ADZENI <span className="text-red-600">MOVIES</span>
+        RUSTIANDA <span className="text-red-600">MOVIES</span>
       </h2>
 
       <div className="pt-12 pb-5 border-b-[1px] border-b-hitam-card">
@@ -25,33 +42,18 @@ const Navside = () => {
         </div>
       </div>
       <div className="pt-5-5">
-        <h4 className="pb-5 pt-10">Categories</h4>
+        <h4 className="pb-5 pt-10">Genres</h4>
         <div>
           <ul>
-            <li>
-              <p className="font-semibold text-md text-white mb-2">Action</p>
-            </li>
-            <li>
-              <p className="font-semibold text-md text-white mb-2">Horror</p>
-            </li>
-            <li>
-              <p className="font-semibold text-md text-white mb-2">Advanture</p>
-            </li>
-            <li>
-              <p className="font-semibold text-md text-white mb-2">Animation</p>
-            </li>
-            <li>
-              <p className="font-semibold text-md text-white mb-2">Crime</p>
-            </li>
-            <li>
-              <p className="font-semibold text-md text-white mb-2">Cartoon</p>
-            </li>
-            <li>
-              <p className="font-semibold text-md text-white mb-2">War</p>
-            </li>
-            <li>
-              <p className="font-semibold text-md text-white mb-2">Fight</p>
-            </li>
+            {genres.map((genre) => {
+              return (
+                <li className="cursor-pointer" key={genre.id}>
+                  <p className="font-semibold text-md text-white mb-2">
+                    {genre.name}
+                  </p>
+                </li>
+              )
+            })}
           </ul>
         </div>
       </div>
