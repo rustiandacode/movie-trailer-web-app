@@ -5,7 +5,6 @@ import { AiFillHome } from 'react-icons/ai'
 
 // import Genres List
 import { getGenres } from '../services/TheMovieDB'
-
 // import hook
 import { useState, useEffect } from 'react'
 
@@ -42,7 +41,7 @@ const Navside = () => {
         </div>
       </div>
       <div className="pt-5-5">
-        <h4 className="pb-5 pt-10">Genres</h4>
+        <h4 className="pb-5 pt-10">Categories</h4>
         <div>
           <ul>
             {genres.map((genre) => {

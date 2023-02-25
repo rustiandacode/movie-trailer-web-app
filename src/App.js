@@ -1,4 +1,10 @@
-import { useState } from 'react'
+// import hook
+import { useState, useEffect } from 'react'
+
+// import genres data from api
+import { getGenres } from './services/TheMovieDB'
+
+// pages
 import Navside from './component/Navside'
 import Navbar from './component/content-component/Navbar'
 import Hero from './component/content-component/Hero'
@@ -12,10 +18,18 @@ function App() {
   const [detailMovie, setDetailMovie] = useState()
   const [movies, setMovies] = useState()
   const [keyword, setKeyword] = useState()
+  const [genres, setGenres] = useState()
+
+  useEffect(() => {
+    getGenres().then((result) => {
+      const data = result
+      setGenres(data.genres)
+    })
+  }, [])
 
   function Content() {
     if (detailMovie) {
-      return <DetailMovie movieDetail={detailMovie} />
+      return <DetailMovie movieDetail={detailMovie} getDetailGenre={genres} />
     } else if (movies !== undefined) {
       return (
         <MovieResults

@@ -12,7 +12,6 @@ const TrendingMovies = (props) => {
   for (let i = 1; i < 6; i++) {
     numberForPages.push(i)
   }
-  // console.log(movies)
 
   // get Trending Movies
   useEffect(() => {
@@ -54,6 +53,7 @@ const TrendingMovies = (props) => {
                   {movie.title}
                 </h4>
                 <p className="my-1 text-xs">{movie.release_date}</p>
+                <p className="my-1 text-xs">{movie.genres_id}</p>
                 <p className="text-xs max-h-24 overflow-hidden">
                   {movie.overview}
                 </p>

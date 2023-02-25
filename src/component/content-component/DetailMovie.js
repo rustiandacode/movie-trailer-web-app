@@ -1,3 +1,4 @@
+// import icon
 import { SlCalender } from 'react-icons/sl'
 import { AiFillStar } from 'react-icons/ai'
 import { GoDiffAdded } from 'react-icons/go'
@@ -5,6 +6,14 @@ import { IoMdCopy } from 'react-icons/io'
 
 const DetailMovie = (props) => {
   const movie = props.movieDetail
+  const genres = props.getDetailGenre
+
+  const findGenre = (x) => {
+    return genres.find(({ id }) => id === x)
+  }
+
+  const result = movie.genre_ids.map((genre_id) => findGenre(genre_id))
+
   return (
     <div className="container mx-auto my-12 px-5">
       <div className="flex-row md:flex gap-5 md:gap-10 lg:p-5 ">
@@ -31,6 +40,16 @@ const DetailMovie = (props) => {
               <AiFillStar className="text-lg" />
               <p className="text-sm mb-3">{movie.vote_average}</p>
             </div>
+            <div className="flex gap-2 mr-3">
+              <h4 className="text-sm">genre : </h4>
+              {result.map((element) => {
+                return (
+                  <p className="text-sm mb-3" key={element.id}>
+                    {element.name}
+                  </p>
+                )
+              })}
+            </div>
           </div>
           <p className="text-sm">{movie.overview}</p>
 
@@ -50,10 +69,6 @@ const DetailMovie = (props) => {
             </div>
           </div>
         </div>
-        <video
-          src={`${process.env.REACT_APP_BASEURL}/movie/{${movie.id}}/videos?api_key=${process.env.REACT_APP_APIKEY}`}
-          width="50"
-        ></video>
       </div>
     </div>
   )
