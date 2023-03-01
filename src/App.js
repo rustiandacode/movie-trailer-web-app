@@ -1,10 +1,4 @@
-// import hook
-import { useState, useEffect } from 'react'
-
-// import genres data from api
-import { getGenres } from './services/TheMovieDB'
-
-// pages
+// import elemet for pages
 import Navside from './component/Navside'
 import Navbar from './component/content-component/Navbar'
 import Hero from './component/content-component/Hero'
@@ -12,30 +6,50 @@ import PopularMovies from './component/content-component/PopularMovies'
 import TrendingMovies from './component/content-component/TrendingMovies'
 import DetailMovie from './component/content-component/DetailMovie'
 import MovieResults from './component/content-component/MovieResults'
+import Discover from './component/content-component/Discover'
 import Footer from './component/content-component/Footer'
 
+// import hook
+import { useState, useEffect } from 'react'
+
+// import getGenre from api
+import { getGenres } from './services/TheMovieDB'
+
 function App() {
-  const [detailMovie, setDetailMovie] = useState()
+  const [detailMovie, setDetailMovie] = useState('')
   const [movies, setMovies] = useState()
   const [keyword, setKeyword] = useState()
   const [genres, setGenres] = useState()
+  const [page, setResetPage] = useState(1)
+  const [discover, setDiscover] = useState('')
+
+  console.log(discover);
+  console.log(detailMovie);
 
   useEffect(() => {
     getGenres().then((result) => {
-      const data = result
-      setGenres(data.genres)
+      setGenres(result.genres)
     })
   }, [])
 
+
+
   function Content() {
-    if (detailMovie) {
-      return <DetailMovie movieDetail={detailMovie} getDetailGenre={genres} />
-    } else if (movies !== undefined) {
+    if(discover !== '') {
+      return <Discover 
+      discoverMovie={discover} 
+      detailMovie={(movie) => setDetailMovie(movie)} 
+      dicoverUndefined={(x) => setDiscover(x)} />
+    }else if (detailMovie !== '') {
+      return <DetailMovie movieDetail={detailMovie} allGenres={genres} />
+    } else if (movies !== undefined ) {
       return (
         <MovieResults
           movieResults={movies}
+          resetPage={page}
           getKeyword={keyword}
           detailMovie={(movie) => setDetailMovie(movie)}
+          moviePages={(moviePages) => setMovies(moviePages)}
         />
       )
     } else {
@@ -53,16 +67,25 @@ function App() {
     <>
       <div className="h-screen">
         <div className="flex justify-between">
-          <Navside />
+          <Navside
+            discoverMovie={(discover) => setDiscover(discover)}
+            dicoverUndefined={(reset) => setDiscover(reset)}
+            detailUndefined={(reset) => setDetailMovie(reset)}
+            movieResultUndefined={(reset) => setMovies(reset)}
+          />
           <div className="w-full bg-hitam-content h-screen overflow-y-scroll ">
             <Navbar
               detailMovie={(movie) => setDetailMovie(movie)}
               movieResults={(movies) => setMovies(movies)}
               keywordMovies={(keyword) => setKeyword(keyword)}
               resetDetailMovie={(reset) => setDetailMovie(reset)}
+              resetPage={(reset) => setResetPage(reset)}
+              detailUndefined={(reset) => setDetailMovie(reset)}
+              dicoverUndefined={(reset) => setDiscover(reset)}
+
             />
             {/* main content */}
-            {Content()}
+              {Content()}
             {/* end main content */}
 
             <Footer />

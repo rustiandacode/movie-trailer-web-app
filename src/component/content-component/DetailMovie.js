@@ -6,13 +6,12 @@ import { IoMdCopy } from 'react-icons/io'
 
 const DetailMovie = (props) => {
   const movie = props.movieDetail
-  const genres = props.getDetailGenre
+  const genres = props.allGenres
 
-  const findGenre = (x) => {
+  function findSpecificGenre(x) {
     return genres.find(({ id }) => id === x)
   }
-
-  const result = movie.genre_ids.map((genre_id) => findGenre(genre_id))
+  const genreResult = movie.genre_ids.map((id) => findSpecificGenre(id))
 
   return (
     <div className="container mx-auto my-12 px-5">
@@ -36,18 +35,13 @@ const DetailMovie = (props) => {
               <SlCalender className="text-lg" />
               <p className="text-sm mb-3">{movie.release_date}</p>
             </div>
-            <div className="flex gap-2 mr-3">
+            <div className="flex gap-2 mr-8">
               <AiFillStar className="text-lg" />
               <p className="text-sm mb-3">{movie.vote_average}</p>
             </div>
-            <div className="flex gap-2 mr-3">
-              <h4 className="text-sm">genre : </h4>
-              {result.map((element) => {
-                return (
-                  <p className="text-sm mb-3" key={element.id}>
-                    {element.name}
-                  </p>
-                )
+            <div className="flex gap-2">
+              {genreResult.map((e) => {
+                return <li className="text-sm mr-5" key={e.id}>{e.name}</li>
               })}
             </div>
           </div>

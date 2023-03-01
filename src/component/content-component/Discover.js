@@ -1,28 +1,21 @@
 import { useState } from 'react'
-import { searchMovie } from '../../services/TheMovieDB'
 import { AiFillStar } from 'react-icons/ai'
 import posterBroken from '../../poster-broken.png'
 
-const MovieResults = (props) => {
-  const [number, setNumber] = useState(props.resetPage)
+const Discover = (props) => {
   const numberForPages = []
+  const [num, setNum] = useState(1)
 
   // number for pages value
   for (let i = 1; i < 6; i++) {
     numberForPages.push(i)
   }
 
-  // results data by page
-  const thisPage = async (number, keyword) => {
-    const query = await searchMovie(number, keyword)
-    return props.moviePages(query.results)
-  }
-
   return (
     <div className="md:my-10 md:px-10 px-5">
-      <p className="title">Results</p>
+      <p className="title">Discover</p>
       <div className="container mx-auto flex flex-wrap justify-center">
-        {props.movieResults.map((movie) => {
+        {props.discoverMovie.map((movie) => {
           const imageBroken = () => {
             if (movie.poster_path) {
               return `${process.env.REACT_APP_BASEIMGURL}${movie.poster_path}`
@@ -36,6 +29,7 @@ const MovieResults = (props) => {
               key={movie.id}
               onClick={() => {
                 props.detailMovie(movie)
+                props.dicoverUndefined('')
               }}
             >
               <div className="absolute right-3 p-2 flex gap-1 items-center">
@@ -60,27 +54,26 @@ const MovieResults = (props) => {
             </div>
           )
         })}
-        <div className="container mx-auto flex justify-center gap-5">
-          {numberForPages.map((num, index) => {
-            return (
-              <div
-                className={`${
-                  num === number ? 'bg-hitam-content' : ''
-                } my-16 text-white shadow w-10 h-10 flex justify-center items-center cursor-pointer bg-hitam-card rounded-md`}
-                key={index}
-                onClick={() => {
-                  setNumber(num)
-                  thisPage(num, props.getKeyword)
-                }}
-              >
-                <p>{num}</p>
-              </div>
-            )
-          })}
-        </div>
+      </div>
+      <div className="contaner mx-auto flex justify-center gap-5">
+        {numberForPages.map((number, index) => {
+          return (
+            <div
+              className={`${
+                num === number ? 'bg-hitam-content' : ''
+              } my-16 text-white shadow w-10 h-10 flex justify-center items-center cursor-pointer bg-hitam-card rounded-md`}
+              key={number}
+              onClick={() => {
+                setNum(number)
+              }}
+            >
+              <p>{number}</p>
+            </div>
+          )
+        })}
       </div>
     </div>
   )
 }
 
-export default MovieResults
+export default Discover

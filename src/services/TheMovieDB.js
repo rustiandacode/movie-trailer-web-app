@@ -42,3 +42,11 @@ export const getGenres = async () => {
   )
   return genres.data
 }
+
+// get movie discover
+export const getMovieDiscover = async (page = 1) => {
+  const discover = await axios.get(
+    `${baseUrl}/discover/movie?api_key=${apiKey}&page=1`,
+  )
+  return discover.data.results
+}
