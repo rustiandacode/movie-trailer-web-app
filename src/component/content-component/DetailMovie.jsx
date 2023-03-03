@@ -12,6 +12,7 @@ const DetailMovie = (props) => {
     return genres.find(({ id }) => id === x)
   }
   const genreResult = movie.genre_ids.map((id) => findSpecificGenre(id))
+  console.log(genreResult)
 
   return (
     <div className="container mx-auto my-12 px-5">
@@ -41,7 +42,11 @@ const DetailMovie = (props) => {
             </div>
             <div className="flex gap-2">
               {genreResult.map((e) => {
-                return <li className="text-sm mr-5" key={e.id}>{e.name}</li>
+                return (
+                  <li className="text-sm mr-5" key={e.id}>
+                    {e.name}
+                  </li>
+                )
               })}
             </div>
           </div>

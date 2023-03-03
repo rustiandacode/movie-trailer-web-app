@@ -46,7 +46,7 @@ export const getGenres = async () => {
 // get movie discover
 export const getMovieDiscover = async (page = 1) => {
   const discover = await axios.get(
-    `${baseUrl}/discover/movie?api_key=${apiKey}&page=1`,
+    `${baseUrl}/discover/movie?api_key=${apiKey}&page=${page}`,
   )
   return discover.data.results
 }

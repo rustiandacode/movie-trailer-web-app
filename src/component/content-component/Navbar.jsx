@@ -81,6 +81,8 @@ const Navbar = (props) => {
               props.movieResults(movies)
               props.keywordMovies(query)
               props.dicoverUndefined('')
+              props.detailUndefined(undefined)
+
               setQuery('')
             }}
           >
@@ -139,7 +141,6 @@ const Navbar = (props) => {
                   key={movie.id}
                   onClick={() => {
                     props.detailMovie(movie)
-                    // props.keywordMovies(keyword)
                     setMovies([])
                     setQuery('')
                     setShowSearch(false)
@@ -159,7 +160,7 @@ const Navbar = (props) => {
               className=" group"
               onClick={() => {
                 props.movieResults(movies)
-                props.detailUndefined(undefined)
+                props.resetDetailMovie(undefined)
                 props.resetPage(1)
                 setQuery('')
                 setShowSearch(false)

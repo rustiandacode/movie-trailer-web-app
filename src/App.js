@@ -16,15 +16,13 @@ import { useState, useEffect } from 'react'
 import { getGenres } from './services/TheMovieDB'
 
 function App() {
-  const [detailMovie, setDetailMovie] = useState('')
+  const [detailMovie, setDetailMovie] = useState()
   const [movies, setMovies] = useState()
   const [keyword, setKeyword] = useState()
   const [genres, setGenres] = useState()
   const [page, setResetPage] = useState(1)
-  const [discover, setDiscover] = useState('')
-
-  console.log(discover);
-  console.log(detailMovie);
+  const [discover, setDiscover] = useState()
+  const [genreSelected, setGenreSelected] = useState()
 
   useEffect(() => {
     getGenres().then((result) => {
@@ -32,17 +30,20 @@ function App() {
     })
   }, [])
 
-
-
   function Content() {
-    if(discover !== '') {
-      return <Discover 
-      discoverMovie={discover} 
-      detailMovie={(movie) => setDetailMovie(movie)} 
-      dicoverUndefined={(x) => setDiscover(x)} />
-    }else if (detailMovie !== '') {
+    if (discover) {
+      return (
+        <Discover
+          discoverMovie={discover}
+          detailMovie={(movie) => setDetailMovie(movie)}
+          dicoverUndefined={(x) => setDiscover(x)}
+          allGenres={genres}
+          genreSelected={genreSelected}
+        />
+      )
+    } else if (detailMovie) {
       return <DetailMovie movieDetail={detailMovie} allGenres={genres} />
-    } else if (movies !== undefined ) {
+    } else if (movies) {
       return (
         <MovieResults
           movieResults={movies}
@@ -72,6 +73,7 @@ function App() {
             dicoverUndefined={(reset) => setDiscover(reset)}
             detailUndefined={(reset) => setDetailMovie(reset)}
             movieResultUndefined={(reset) => setMovies(reset)}
+            genreSelected={(genre) => setGenreSelected(genre)}
           />
           <div className="w-full bg-hitam-content h-screen overflow-y-scroll ">
             <Navbar
@@ -80,12 +82,11 @@ function App() {
               keywordMovies={(keyword) => setKeyword(keyword)}
               resetDetailMovie={(reset) => setDetailMovie(reset)}
               resetPage={(reset) => setResetPage(reset)}
-              detailUndefined={(reset) => setDetailMovie(reset)}
               dicoverUndefined={(reset) => setDiscover(reset)}
-
+              detailUndefined={(reset) => setDetailMovie(reset)}
             />
             {/* main content */}
-              {Content()}
+            {Content()}
             {/* end main content */}
 
             <Footer />
