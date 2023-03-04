@@ -1,5 +1,5 @@
 // import elemet for pages
-import Navside from './component/Navside'
+import Navside from './component/content-component/Navside'
 import Navbar from './component/content-component/Navbar'
 import Hero from './component/content-component/Hero'
 import PopularMovies from './component/content-component/PopularMovies'
@@ -23,6 +23,9 @@ function App() {
   const [page, setResetPage] = useState(1)
   const [discover, setDiscover] = useState()
   const [genreSelected, setGenreSelected] = useState()
+  const [trailer, setTrailer] = useState()
+
+  console.log(trailer)
 
   useEffect(() => {
     getGenres().then((result) => {
@@ -42,7 +45,13 @@ function App() {
         />
       )
     } else if (detailMovie) {
-      return <DetailMovie movieDetail={detailMovie} allGenres={genres} />
+      return (
+        <DetailMovie
+          movieDetail={detailMovie}
+          allGenres={genres}
+          trailer={trailer}
+        />
+      )
     } else if (movies) {
       return (
         <MovieResults
@@ -57,7 +66,10 @@ function App() {
       return (
         <>
           <Hero detailMovie={(movie) => setDetailMovie(movie)} />
-          <PopularMovies detailMovie={(movie) => setDetailMovie(movie)} />
+          <PopularMovies
+            detailMovie={(movie) => setDetailMovie(movie)}
+            trailer={(video) => setTrailer(video)}
+          />
           <TrendingMovies detailMovie={(movie) => setDetailMovie(movie)} />
         </>
       )
@@ -68,13 +80,15 @@ function App() {
     <>
       <div className="h-screen">
         <div className="flex justify-between">
-          <Navside
-            discoverMovie={(discover) => setDiscover(discover)}
-            dicoverUndefined={(reset) => setDiscover(reset)}
-            detailUndefined={(reset) => setDetailMovie(reset)}
-            movieResultUndefined={(reset) => setMovies(reset)}
-            genreSelected={(genre) => setGenreSelected(genre)}
-          />
+          <div className="hidden lg:block p-10 md:w-1/5 h-screen overflow-y-scroll">
+            <Navside
+              discoverMovie={(discover) => setDiscover(discover)}
+              dicoverUndefined={(reset) => setDiscover(reset)}
+              detailUndefined={(reset) => setDetailMovie(reset)}
+              movieResultUndefined={(reset) => setMovies(reset)}
+              genreSelected={(genre) => setGenreSelected(genre)}
+            />
+          </div>
           <div className="w-full bg-hitam-content h-screen overflow-y-scroll ">
             <Navbar
               detailMovie={(movie) => setDetailMovie(movie)}
@@ -84,6 +98,9 @@ function App() {
               resetPage={(reset) => setResetPage(reset)}
               dicoverUndefined={(reset) => setDiscover(reset)}
               detailUndefined={(reset) => setDetailMovie(reset)}
+              discoverMovie={(discover) => setDiscover(discover)}
+              movieResultUndefined={(reset) => setMovies(reset)}
+              genreSelected={(genre) => setGenreSelected(genre)}
             />
             {/* main content */}
             {Content()}

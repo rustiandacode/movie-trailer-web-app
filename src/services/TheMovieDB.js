@@ -50,3 +50,12 @@ export const getMovieDiscover = async (page = 1) => {
   )
   return discover.data.results
 }
+
+// get trailer movie
+export const getTrailer = async (id) => {
+  const trailer = await axios.get(
+    `${baseUrl}/movie/${id}/videos?api_key=${apiKey}&append_to_response=videos`,
+  )
+
+  return trailer
+}

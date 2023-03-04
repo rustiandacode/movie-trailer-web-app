@@ -4,7 +4,7 @@ import { BsFillHeartFill } from 'react-icons/bs'
 import { AiFillHome } from 'react-icons/ai'
 
 // import Genres List
-import { getGenres, getMovieDiscover } from '../services/TheMovieDB'
+import { getGenres, getMovieDiscover } from '../../services/TheMovieDB'
 
 // import hook
 import { useState, useEffect } from 'react'
@@ -171,7 +171,7 @@ const Navside = (props) => {
   }, [])
 
   return (
-    <nav className="p-10 md:w-1/5  h-screen overflow-y-scroll hidden lg:block">
+    <nav>
       <h2 className="text-white text-2xl font-bold cursor-pointer">
         RUSTIANDA <span className="text-red-600">MOVIES</span>
       </h2>

@@ -3,29 +3,53 @@ import { SlCalender } from 'react-icons/sl'
 import { AiFillStar } from 'react-icons/ai'
 import { GoDiffAdded } from 'react-icons/go'
 import { IoMdCopy } from 'react-icons/io'
+import { getTrailer } from '../../services/TheMovieDB'
+
+import { useState, useEffect } from 'react'
+
+import YouTube from 'react-youtube'
 
 const DetailMovie = (props) => {
   const movie = props.movieDetail
   const genres = props.allGenres
+  const [selected, setSelected] = useState()
+
+  useEffect(() => {
+    getTrailer(movie.id).then((result) => {
+      setSelected(result.data)
+    })
+  }, [movie])
+
+  console.log(selected)
+
+  const renderTrailer = () => {
+    const trailer = selected.results.find(
+      (vid) => vid.name === 'Official Trailer',
+    )
+    const opts = {
+      height: '200',
+      width: '375',
+      playerVars: {
+        // https://developers.google.com/youtube/player_parameters
+        autoplay: 1,
+      },
+    }
+    return <YouTube opts={opts} videoId={trailer.key} />
+  }
 
   function findSpecificGenre(x) {
     return genres.find(({ id }) => id === x)
   }
   const genreResult = movie.genre_ids.map((id) => findSpecificGenre(id))
-  console.log(genreResult)
 
   return (
     <div className="container mx-auto my-12 px-5">
+      <div className="rounded-lg">{selected ? renderTrailer() : null}</div>
       <div className="flex-row md:flex gap-5 md:gap-10 lg:p-5 ">
         <img
           src={`${process.env.REACT_APP_BASEIMGURL}${movie.poster_path}`}
           alt={movie.title}
           className="hidden md:block md:w-[20vw] h-72 rounded-lg"
-        />
-        <img
-          src={`${process.env.REACT_APP_BASEIMGURL}${movie.backdrop_path}`}
-          alt={movie.title}
-          className="md:hidden w-full rounded-lg"
         />
         <div className=" mt-6 w-full">
           <h3 className="text-white text-lg md:text-3xl font-semibold mb-3">
@@ -40,15 +64,15 @@ const DetailMovie = (props) => {
               <AiFillStar className="text-lg" />
               <p className="text-sm mb-3">{movie.vote_average}</p>
             </div>
-            <div className="flex gap-2">
-              {genreResult.map((e) => {
-                return (
-                  <li className="text-sm mr-5" key={e.id}>
-                    {e.name}
-                  </li>
-                )
-              })}
-            </div>
+          </div>
+          <div className="flex ml-2 mb-2 flex-wrap gap-2">
+            {genreResult.map((e) => {
+              return (
+                <li className="text-sm mr-5" key={e.id}>
+                  {e.name}
+                </li>
+              )
+            })}
           </div>
           <p className="text-sm">{movie.overview}</p>
 
