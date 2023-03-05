@@ -1,8 +1,6 @@
 // import icon
 import { SlCalender } from 'react-icons/sl'
 import { AiFillStar } from 'react-icons/ai'
-import { GoDiffAdded } from 'react-icons/go'
-import { IoMdCopy } from 'react-icons/io'
 import { getTrailer } from '../../services/TheMovieDB'
 
 import { useState, useEffect } from 'react'
@@ -13,6 +11,7 @@ const DetailMovie = (props) => {
   const movie = props.movieDetail
   const genres = props.allGenres
   const [selected, setSelected] = useState()
+  const [trailer, setTrailer] = useState(false)
 
   useEffect(() => {
     getTrailer(movie.id).then((result) => {
@@ -22,19 +21,23 @@ const DetailMovie = (props) => {
 
   console.log(selected)
 
-  const renderTrailer = () => {
+  const renderTrailer = (h = '200', w = '375') => {
     const trailer = selected.results.find(
       (vid) => vid.name === 'Official Trailer',
     )
-    const opts = {
-      height: '200',
-      width: '375',
-      playerVars: {
-        // https://developers.google.com/youtube/player_parameters
-        autoplay: 1,
-      },
+
+    const videoTrailer = () => {
+      if (trailer === undefined) {
+        return selected.results[0]
+      }
+      return trailer
     }
-    return <YouTube opts={opts} videoId={trailer.key} />
+
+    const opts = {
+      height: h,
+      width: w,
+    }
+    return <YouTube opts={opts} videoId={videoTrailer().key} />
   }
 
   function findSpecificGenre(x) {
@@ -42,9 +45,34 @@ const DetailMovie = (props) => {
   }
   const genreResult = movie.genre_ids.map((id) => findSpecificGenre(id))
 
+  console.log(trailer)
+
   return (
     <div className="container mx-auto my-12 px-5">
-      <div className="rounded-lg">{selected ? renderTrailer() : null}</div>
+      <div>
+        <div
+          className={
+            trailer === true
+              ? 'w-full h-full absolute left-0 top-0 bg-hitam-dasar opacity-90 blur-md'
+              : ''
+          }
+        ></div>
+        <div
+          className={
+            trailer === true
+              ? 'mx-auto w-[500px] top-1/4 absolute left-[500px]'
+              : 'md:hidden'
+          }
+        >
+          {selected ? renderTrailer() : null}
+          <p
+            className="mt-8 text-center text-white bg-red-600 w-[80px] hover:opacity-90 cursor-pointer md:block hidden"
+            onClick={() => setTrailer(false)}
+          >
+            close x
+          </p>
+        </div>
+      </div>
       <div className="flex-row md:flex gap-5 md:gap-10 lg:p-5 ">
         <img
           src={`${process.env.REACT_APP_BASEIMGURL}${movie.poster_path}`}
@@ -77,10 +105,13 @@ const DetailMovie = (props) => {
           <p className="text-sm">{movie.overview}</p>
 
           <div className="my-8 flex gap-10">
-            <button className="text-sm px-2 py- h-10 cursor-pointer bg-red-600 hover:bg-red-800 transition text-white font-semibold rounded-lg">
+            <button
+              className=" hidden md:block text-sm px-2 py- h-10 cursor-pointer bg-red-600 hover:bg-red-800 transition text-white font-semibold rounded-lg"
+              onClick={() => setTrailer(true)}
+            >
               Watch Trailer
             </button>
-            <div className="flex gap-2">
+            {/* <div className="flex gap-2">
               <div className="w-20 flex flex-col items-center gap-2 cursor-pointer hover:text-white">
                 <GoDiffAdded className="text-3xl " />
                 <p className="text-xs text-center">Add wachlist</p>
@@ -89,7 +120,7 @@ const DetailMovie = (props) => {
                 <IoMdCopy className="text-3xl hover-group:text-white" />
                 <p className="text-xs text-center">Copy link</p>
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>
